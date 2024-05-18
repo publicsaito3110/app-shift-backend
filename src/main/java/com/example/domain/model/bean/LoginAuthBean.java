@@ -9,7 +9,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginBean {
+public class LoginAuthBean {
 
-    private boolean isAlreadyLogin;
+    private boolean result;
+
+    private String jwt;
 }

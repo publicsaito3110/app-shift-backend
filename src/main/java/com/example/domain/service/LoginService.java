@@ -1,10 +1,10 @@
 package com.example.domain.service;
 
 import com.example.common.Const;
-import com.example.domain.model.bean.LoginBean;
+import com.example.domain.model.bean.LoginAuthBean;
 import com.example.domain.model.entity.UserEntity;
 import com.example.domain.repository.UserRepository;
-import com.example.form.LoginForm;
+import com.example.form.LoginAuthForm;
 import com.example.security.JwtAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +23,7 @@ public class LoginService {
 
 
     /**
-     * [Service] ログイン認可機能 (/login)
+     * [Service] ログイン認可機能 (/login/auth)
      *
      * <p>
      * ログイン情報からログイン認可を行う
@@ -34,7 +34,7 @@ public class LoginService {
      * @param form フロントからの入力値
      * @return LoginBean ログイン結果
      */
-    public LoginBean login(LoginForm form) {
+    public LoginAuthBean loginAuth(LoginAuthForm form) {
         // DaoAuthenticationProviderを用いた認証を行う
         daoAuthenticationProvider.authenticate(
                 new UsernamePasswordAuthenticationToken(form.getId(), form.getPassword())
@@ -47,6 +47,6 @@ public class LoginService {
         JwtAuth jwtAuths = new JwtAuth();
         String jwt = jwtAuths.jwtCreate(userEntity.getId(), userEntity.getAdminFlgFormatRole());
 
-        return new LoginBean(true, jwt);
+        return new LoginAuthBean(true, jwt);
     }
 }

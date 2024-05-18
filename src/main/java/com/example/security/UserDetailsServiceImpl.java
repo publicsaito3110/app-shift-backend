@@ -38,18 +38,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // ログイン入力値から該当のユーザを検索
-        UserEntity entity = userRepository.selectId(username, Const.USER_DEL_FLG_DELETED);
+        UserEntity userEntity = userRepository.selectId(username, Const.USER_DEL_FLG_DELETED);
 
         // ユーザが存在しないとき、例外で抜ける
-        if (entity == null) {
+        if (userEntity == null) {
             throw new UsernameNotFoundException("username or password are not found");
         }
 
         // ユーザの権限の追加
         HashSet<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(entity.getAdminFlgFormatRole()));
+        grantedAuthorities.add(new SimpleGrantedAuthority(userEntity.getAdminFlgFormatRole()));
 
         // ログインパスワードが一致しているか認証
-        return new User(username, "", grantedAuthorities);
+        return new User(username, userEntity.getPassword(), grantedAuthorities);
     }
 }

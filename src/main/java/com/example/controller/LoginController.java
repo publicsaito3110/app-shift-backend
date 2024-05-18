@@ -35,9 +35,19 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public LoginBean login(HttpServletRequest request) {
 
-        // ヘッダーのキーからトークンを取得
-        String jwt = request.getHeader(SecurityConst.JWT_TOKEN_HEADER_REQUEST);
-        return new LoginBean(jwt != null);
+        // ヘッダーからJWTを取得
+        String jwt = request.getHeader(SecurityConst.JWT_TOKEN_HEADER_REQUEST) + " ";
+
+        if (jwt == null) {
+            // JWTがnullのとき、未ログインであることを返す
+            return new LoginBean(false);
+        } else if (SecurityConst.JWT_AUTHORIZE_CLAIM.equals(jwt)) {
+            // JWTがClaim認証されていないとき、未ログインであることを返す
+            return new LoginBean(false);
+        } else {
+            // それ以外のとき、ログイン済みであることを返す
+            return new LoginBean(false);
+        }
     }
 
 

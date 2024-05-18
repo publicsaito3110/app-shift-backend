@@ -59,7 +59,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(auth -> auth
                 // 未認証を許容するURI
-                .requestMatchers("/api/login").permitAll()
+                .requestMatchers("/api/login/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 // 認証を必要とするURI
                 .anyRequest().authenticated()
